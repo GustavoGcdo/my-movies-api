@@ -5,6 +5,7 @@ import 'reflect-metadata';
 import config from './config';
 import DIContainer from './di-container';
 import { IndexRoutes } from './routes/index.route';
+import { UserRoutes } from './routes/user.route';
 
 export class App {
   private app: Application;
@@ -26,10 +27,11 @@ export class App {
   }
 
   private configureRoutes() {
-
     const indexRoutes = DIContainer.resolve<IndexRoutes>(IndexRoutes);    
-    this.app.use(indexRoutes.getRoutes());
-    
+    const userRoutes = DIContainer.resolve<UserRoutes>(UserRoutes);
+
+    this.app.use(indexRoutes.getRoutes());    
+    this.app.use(userRoutes.getRoutes());
   }
 
   private async connectToDatabase() {
