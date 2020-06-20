@@ -1,5 +1,5 @@
 export interface Profile {
-    _id: string;
+    _id?: string;
     name: string;
     isMain: boolean;    
   }

@@ -1,3 +1,4 @@
+import { AddProfileHandler } from './handler/user/addProfile.handler';
 import { Container } from 'inversify';
 import { IndexController } from './controllers/index.controller';
 import { UsersController } from './controllers/users.controller';
@@ -16,6 +17,7 @@ DIContainer.bind<IndexController>(IndexController).toSelf();
 DIContainer.bind<UsersController>(UsersController).toSelf();
 
 DIContainer.bind<SignUpHandler>(Types.SignupHandler).to(SignUpHandler);
+DIContainer.bind<AddProfileHandler>(Types.AddProfileHandler).to(AddProfileHandler);
 
 DIContainer.bind<UserRepository>(Types.SignupRepository).to(UserRepository);
 

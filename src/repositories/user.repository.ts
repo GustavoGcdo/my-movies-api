@@ -2,6 +2,7 @@ import UserModel from '../models/schemas/user.schema';
 import { injectable } from 'inversify';
 import { User } from '../models/entities/user';
 import { IUserRepository } from '../interfaces/repositories/userRepository.interface';
+import { Profile } from '../models/entities/profile';
 
 @injectable()
 export class UserRepository implements IUserRepository {
@@ -11,9 +12,14 @@ export class UserRepository implements IUserRepository {
     return mapedUsers;
   }
 
-  public async create(user: User) : Promise<User> {
+  public async create(user: User): Promise<User> {
     const documentCreated = await UserModel.create(user);
     const userCreated = documentCreated.toObject();
     return userCreated;
+  }
+
+  public async addProfile(idUser: string, profile: Profile): Promise<User> {
+    const userUpdated = UserModel.updateOne({ _id: idUser }, { $push: { profiles: profile } });
+    return userUpdated;
   }
 }

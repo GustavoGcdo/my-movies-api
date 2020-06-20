@@ -1,4 +1,5 @@
 import { Report } from '../infra/report';
+import { Types } from 'mongoose';
 export class Validator {
   public reports: Report[];
 
@@ -45,6 +46,12 @@ export class Validator {
   public isValidEmail(value: string, name: string, message: string) {
     const reg = new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
     if (!reg.test(value)) {
+      this.reports.push({ name, message });
+    }
+  }
+
+  public isValidObjectId(id: string, name: string, message: string) {
+    if(!Types.ObjectId.isValid(id)){      
       this.reports.push({ name, message });
     }
   }
