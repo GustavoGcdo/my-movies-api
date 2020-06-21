@@ -7,13 +7,13 @@ import { Result } from '../../infra/result';
 import { ISignupHandler } from '../../interfaces/users/handlers/signupHandler.interface';
 import { IUserRepository } from '../../interfaces/users/repositories/userRepository.interface';
 import { User } from '../../models/entities/user';
-import Types from '../../types/user.types';
+import UserTypes from '../../types/user.types';
 
 @injectable()
 export class SignUpHandler implements ISignupHandler {
   private _repository: IUserRepository;
 
-  constructor(@inject(Types.SignupRepository) repository: IUserRepository) {
+  constructor(@inject(UserTypes.UserRepository) repository: IUserRepository) {
     this._repository = repository;
   }
 

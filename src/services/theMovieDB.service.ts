@@ -11,7 +11,14 @@ export class TheMovieDBService {
     const response = await TheMovieDBBase.get(`/search/movie?${queryParam}`);
     return response.data;
   }
-  
+
+  async getSpecificMovie(movieId: number) {
+    const response = await TheMovieDBBase.get(`movie/${movieId}`).catch((err) => {
+      return { data: null };
+    });
+    return response.data;
+  }
+
   async getPopularMovies() {
     const queryParam = stringify({ language: config.LANGUAGE });
     const response = await TheMovieDBBase.get(`/movie/popular?${queryParam}`);

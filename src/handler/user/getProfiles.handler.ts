@@ -3,7 +3,7 @@ import { GetProfilesDto } from '../../dtos/user/getProfiles.dto';
 import { Result } from '../../infra/result';
 import { IGetProfilesHandler } from '../../interfaces/users/handlers/getProfilesHandler.interface';
 import { IUserRepository } from '../../interfaces/users/repositories/userRepository.interface';
-import Types from '../../types/user.types';
+import UserTypes from '../../types/user.types';
 import { GetProfilesContract } from '../../contracts/user/getProfiles.contract';
 import { ValidationFailedError } from '../../infra/errors/validationFailedError';
 
@@ -11,7 +11,7 @@ import { ValidationFailedError } from '../../infra/errors/validationFailedError'
 export class GetProfilesHandler implements IGetProfilesHandler {
   private _repository: IUserRepository;
 
-  constructor(@inject(Types.SignupRepository) repository: IUserRepository) {
+  constructor(@inject(UserTypes.UserRepository) repository: IUserRepository) {
     this._repository = repository;
   }
 

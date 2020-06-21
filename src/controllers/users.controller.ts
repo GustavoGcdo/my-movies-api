@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify';
 import { HttpStatus } from '../infra/enums/http-status.enum';
 import { HandleResponse } from '../infra/handleResponse';
 import { ISignupHandler } from '../interfaces/users/handlers/signupHandler.interface';
-import Types from '../types/user.types';
+import UserTypes from '../types/user.types';
 import { AddProfileDto } from '../dtos/user/addProfile.dto';
 import { IAddProfileHandler } from '../interfaces/users/handlers/addProfileHandler.interface';
 import { GetProfilesDto } from '../dtos/user/getProfiles.dto';
@@ -16,9 +16,9 @@ export class UsersController {
   private _getProfileHandler: IGetProfilesHandler;
 
   constructor(
-    @inject(Types.SignupHandler) signupHandler: ISignupHandler,
-    @inject(Types.AddProfileHandler) addProfileHandler: IAddProfileHandler,
-    @inject(Types.GetProfilesHandler) getProfilesHandler: IGetProfilesHandler,
+    @inject(UserTypes.SignupHandler) signupHandler: ISignupHandler,
+    @inject(UserTypes.AddProfileHandler) addProfileHandler: IAddProfileHandler,
+    @inject(UserTypes.GetProfilesHandler) getProfilesHandler: IGetProfilesHandler,
   ) {
     this._signupHandler = signupHandler;
     this._addProfileHandler = addProfileHandler;

@@ -2,7 +2,8 @@ import { Schema, model } from 'mongoose';
 
 const profileSchema = new Schema({
   name: String,
-  isMain: Boolean
+  isMain: Boolean,
+  favoriteGenres: [Number]
 });
 
 const schema = new Schema(

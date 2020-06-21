@@ -51,7 +51,13 @@ export class Validator {
   }
 
   public isValidObjectId(id: string, name: string, message: string) {
-    if(!Types.ObjectId.isValid(id)){      
+    if (!Types.ObjectId.isValid(id)) {
+      this.reports.push({ name, message });
+    }
+  }
+
+  public isValidNumber(value: any, name: string, message: string) {
+    if (isNaN(parseInt(value))) {
       this.reports.push({ name, message });
     }
   }
