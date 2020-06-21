@@ -5,7 +5,7 @@ import { App } from '../../../src/app';
 import { User } from '../../../src/models/entities/user';
 import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
 
-describe('List Profiles User', () => {
+describe('Add Movie to Watchlist', () => {
   let application: Application;
   let userToTest: User;
 

@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { inject, injectable } from 'inversify';
-import { MoviesController } from '../controllers/movies.controller';
 import { ProfilesController } from '../controllers/profiles.controller';
 
 @injectable()
@@ -19,6 +18,7 @@ export class ProfileRoutes {
   }
 
   private mapRoutes() {
+    this.router.get('/profiles/:id/watchlist', (req, res) => this._controller.getWatchlist(req, res));
     this.router.post('/profiles/:id/watchlist', (req, res) => this._controller.addToWatchlist(req, res));
   }
 }
