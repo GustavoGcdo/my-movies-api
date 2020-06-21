@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { UsersController } from '../controllers/users.controller';
 import { inject, injectable } from 'inversify';
 import { MoviesController } from '../controllers/movies.controller';
 
@@ -19,6 +18,6 @@ export class MovieRoutes {
   }
 
   private mapRoutes() {
-    this.router.get('/movies', (req, res) => this._controller.searchMovie(req, res));    
+    this.router.get('/movies', (req, res) => this._controller.searchMovie(req, res));
   }
 }

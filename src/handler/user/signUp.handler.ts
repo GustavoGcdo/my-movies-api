@@ -1,18 +1,17 @@
-import { injectable, inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { SignUpContract } from '../../contracts/user/signUp.contract';
 import { SignUpDto } from '../../dtos/user/signUp.dto';
-import { Result } from '../../infra/result';
-import { ISignupHandler } from '../../interfaces/users/handlers/signupHandler.interface';
-import { UserRepository } from '../../repositories/user.repository';
-import Types from '../../types/user.types';
-import { IUserRepository } from '../../interfaces/users/repositories/userRepository.interface';
-import { User } from '../../models/entities/user';
 import { ValidationFailedError } from '../../infra/errors/validationFailedError';
 import { Report } from '../../infra/report';
+import { Result } from '../../infra/result';
+import { ISignupHandler } from '../../interfaces/users/handlers/signupHandler.interface';
+import { IUserRepository } from '../../interfaces/users/repositories/userRepository.interface';
+import { User } from '../../models/entities/user';
+import Types from '../../types/user.types';
 
 @injectable()
 export class SignUpHandler implements ISignupHandler {
-  private _repository: UserRepository;
+  private _repository: IUserRepository;
 
   constructor(@inject(Types.SignupRepository) repository: IUserRepository) {
     this._repository = repository;
