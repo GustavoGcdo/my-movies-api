@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "cross-env NODE_ENV=dev ts-node-dev --no-notify --respawn --transpileOnly ./src/server.ts",
     "build": "tsc",
-    "test": "jest",
+    "test": "jest --runInBand",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
     "coverage": "cross-env NODE_ENV=test jest --coverage"
   },

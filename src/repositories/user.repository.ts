@@ -22,4 +22,13 @@ export class UserRepository implements IUserRepository {
     const userUpdated = UserModel.updateOne({ _id: idUser }, { $push: { profiles: profile } });
     return userUpdated;
   }
+
+  public async getProfiles(idUser: string): Promise<Profile[]> {
+    const userFound: User = await UserModel.findOne({ _id: idUser })
+      .select('profiles')
+      .then((o) => o?.toObject());
+
+    const profiles = userFound.profiles;
+    return profiles;
+  }
 }
