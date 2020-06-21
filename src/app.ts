@@ -6,6 +6,7 @@ import config from './config';
 import DIContainer from './di-container';
 import { IndexRoutes } from './routes/index.route';
 import { UserRoutes } from './routes/user.route';
+import { MovieRoutes } from './routes/movie.route';
 
 export class App {
   private app: Application;
@@ -29,9 +30,11 @@ export class App {
   private configureRoutes() {
     const indexRoutes = DIContainer.resolve<IndexRoutes>(IndexRoutes);    
     const userRoutes = DIContainer.resolve<UserRoutes>(UserRoutes);
+    const movieRoutes = DIContainer.resolve<MovieRoutes>(MovieRoutes);
 
     this.app.use(indexRoutes.getRoutes());    
     this.app.use(userRoutes.getRoutes());
+    this.app.use(movieRoutes.getRoutes());
   }
 
   private async connectToDatabase() {

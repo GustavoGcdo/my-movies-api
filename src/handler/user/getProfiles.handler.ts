@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify';
 import { GetProfilesDto } from '../../dtos/user/getProfiles.dto';
 import { Result } from '../../infra/result';
-import { IGetProfilesHandler } from '../../interfaces/handlers/getProfilesHandler.interface';
-import { IUserRepository } from '../../interfaces/repositories/userRepository.interface';
+import { IGetProfilesHandler } from '../../interfaces/users/handlers/getProfilesHandler.interface';
+import { IUserRepository } from '../../interfaces/users/repositories/userRepository.interface';
 import Types from '../../types/user.types';
 import { GetProfilesContract } from '../../contracts/user/getProfiles.contract';
 import { ValidationFailedError } from '../../infra/errors/validationFailedError';

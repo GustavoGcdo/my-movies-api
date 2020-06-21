@@ -2,12 +2,12 @@ import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { HttpStatus } from '../infra/enums/http-status.enum';
 import { HandleResponse } from '../infra/handleResponse';
-import { ISignupHandler } from '../interfaces/handlers/signupHandler.interface';
+import { ISignupHandler } from '../interfaces/users/handlers/signupHandler.interface';
 import Types from '../types/user.types';
 import { AddProfileDto } from '../dtos/user/addProfile.dto';
-import { IAddProfileHandler } from '../interfaces/handlers/addProfileHandler.interface';
+import { IAddProfileHandler } from '../interfaces/users/handlers/addProfileHandler.interface';
 import { GetProfilesDto } from '../dtos/user/getProfiles.dto';
-import { IGetProfilesHandler } from '../interfaces/handlers/getProfilesHandler.interface';
+import { IGetProfilesHandler } from '../interfaces/users/handlers/getProfilesHandler.interface';
 
 @injectable()
 export class UsersController {

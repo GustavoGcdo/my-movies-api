@@ -1,7 +1,7 @@
 import UserModel from '../models/schemas/user.schema';
 import { injectable } from 'inversify';
 import { User } from '../models/entities/user';
-import { IUserRepository } from '../interfaces/repositories/userRepository.interface';
+import { IUserRepository } from '../interfaces/users/repositories/userRepository.interface';
 import { Profile } from '../models/entities/profile';
 
 @injectable()

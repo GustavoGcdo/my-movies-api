@@ -1,5 +1,5 @@
-import { User } from '../../models/entities/user';
-import { Profile } from '../../models/entities/profile';
+import { User } from '../../../models/entities/user';
+import { Profile } from '../../../models/entities/profile';
 
 export interface IUserRepository {
   find(filter: any): Promise<User[]>;

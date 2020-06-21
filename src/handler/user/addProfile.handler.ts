@@ -4,8 +4,8 @@ import { AddProfileDto } from '../../dtos/user/addProfile.dto';
 import { ValidationFailedError } from '../../infra/errors/validationFailedError';
 import { Report } from '../../infra/report';
 import { Result } from '../../infra/result';
-import { IAddProfileHandler } from '../../interfaces/handlers/addProfileHandler.interface';
-import { IUserRepository } from '../../interfaces/repositories/userRepository.interface';
+import { IAddProfileHandler } from '../../interfaces/users/handlers/addProfileHandler.interface';
+import { IUserRepository } from '../../interfaces/users/repositories/userRepository.interface';
 import { Profile } from '../../models/entities/profile';
 import Types from '../../types/user.types';
 
