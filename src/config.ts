@@ -18,4 +18,5 @@ switch (NODE_ENV) {
 
 export default {
   DB_URI: process.env.DB_URI || 'mongodb://localhost/my-movies-db',
+  LANGUAGE: process.env.LANGUAGE || 'pt-BR',
 };
