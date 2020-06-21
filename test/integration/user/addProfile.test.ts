@@ -1,7 +1,7 @@
 import { Application } from 'express';
-import { App } from '../../../src/app';
 import mongoose from 'mongoose';
 import request from 'supertest';
+import { App } from '../../../src/app';
 import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
 import { User } from '../../../src/models/entities/user';
 

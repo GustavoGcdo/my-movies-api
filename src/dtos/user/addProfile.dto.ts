@@ -1,5 +1,4 @@
-export interface AddProfileDto {    
-    idUser: string;
-    name: string;
-  }
-  
+export interface AddProfileDto {
+  idUser: string;
+  name: string;
+}
