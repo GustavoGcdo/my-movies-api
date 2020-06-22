@@ -21,18 +21,27 @@ import UserTypes from './types/user.types';
 import { GetWatchlistHandler } from './handler/profiles/getWatchlist.handler';
 import { MarkAsWatchedHandler } from './handler/profiles/markAsWatched.handler';
 import { GetRecommendedMoviesHandler } from './handler/movies/getRecommendedMoviesHandler';
+import { AuthRoutes } from './routes/auth.route';
+import { AuthController } from './controllers/auth.controller';
+import AuthTypes from './types/auth.types';
+import { LoginHandler } from './handler/auth/login.handler';
+import { AuthenticationService } from './services/authentication.service';
 
 const DIContainer = new Container();
 
+DIContainer.bind<AuthRoutes>(AuthRoutes).toSelf();
 DIContainer.bind<IndexRoutes>(IndexRoutes).toSelf();
 DIContainer.bind<UserRoutes>(UserRoutes).toSelf();
 DIContainer.bind<MovieRoutes>(MovieRoutes).toSelf();
 DIContainer.bind<ProfileRoutes>(ProfileRoutes).toSelf();
 
+DIContainer.bind<AuthController>(AuthController).toSelf();
 DIContainer.bind<IndexController>(IndexController).toSelf();
 DIContainer.bind<UsersController>(UsersController).toSelf();
 DIContainer.bind<MoviesController>(MoviesController).toSelf();
 DIContainer.bind<ProfilesController>(ProfilesController).toSelf();
+
+DIContainer.bind<LoginHandler>(AuthTypes.LoginHandler).to(LoginHandler);
 
 DIContainer.bind<SignUpHandler>(UserTypes.SignupHandler).to(SignUpHandler);
 DIContainer.bind<AddProfileHandler>(UserTypes.AddProfileHandler).to(AddProfileHandler);
@@ -45,7 +54,7 @@ DIContainer.bind<AddToWatchlistHandler>(ProfileTypes.AddToWatchlistHandler).to(A
 DIContainer.bind<GetWatchlistHandler>(ProfileTypes.GetWatchlistHandler).to(GetWatchlistHandler);
 DIContainer.bind<MarkAsWatchedHandler>(ProfileTypes.MarkAsWatchedHandler).to(MarkAsWatchedHandler);
 
-DIContainer.bind<TheMovieDBService>(TheMovieDBService).to(TheMovieDBService);
+DIContainer.bind<TheMovieDBService>(TheMovieDBService).toSelf();
 
 DIContainer.bind<UserRepository>(UserTypes.UserRepository).to(UserRepository);
 DIContainer.bind<MyMoviesRepository>(ProfileTypes.MyMoviesRepository).to(MyMoviesRepository);

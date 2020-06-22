@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { addToWatchListContract } from '../../contracts/profiles/addToWatchlist.contract';
+import { AddToWatchListContract } from '../../contracts/profiles/addToWatchlist.contract';
 import { AddToWatchlistDto } from '../../dtos/profiles/addToWatchlist.dto';
 import { ValidationFailedError } from '../../infra/errors/validationFailedError';
 import { Report } from '../../infra/report';
@@ -47,7 +47,7 @@ export class AddToWatchlistHandler implements IAddToWatchlistHandler {
   }
 
   private validateContract(addToWatchlistDto: AddToWatchlistDto) {
-    const contract = new addToWatchListContract();
+    const contract = new AddToWatchListContract();
     const isNotValid = !contract.validate(addToWatchlistDto);
 
     if (isNotValid) {

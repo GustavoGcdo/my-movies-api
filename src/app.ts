@@ -8,6 +8,7 @@ import { IndexRoutes } from './routes/index.route';
 import { UserRoutes } from './routes/user.route';
 import { MovieRoutes } from './routes/movie.route';
 import { ProfileRoutes } from './routes/profile.route';
+import { AuthRoutes } from './routes/auth.route';
 
 export class App {
   private app: Application;
@@ -29,11 +30,13 @@ export class App {
   }
 
   private configureRoutes() {
+    const authRoutes = DIContainer.resolve<AuthRoutes>(AuthRoutes);    
     const indexRoutes = DIContainer.resolve<IndexRoutes>(IndexRoutes);    
     const userRoutes = DIContainer.resolve<UserRoutes>(UserRoutes);
     const movieRoutes = DIContainer.resolve<MovieRoutes>(MovieRoutes);
     const profileRoutes = DIContainer.resolve<ProfileRoutes>(ProfileRoutes);
 
+    this.app.use(authRoutes.getRoutes());    
     this.app.use(indexRoutes.getRoutes());    
     this.app.use(userRoutes.getRoutes());
     this.app.use(movieRoutes.getRoutes());

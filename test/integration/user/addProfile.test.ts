@@ -5,7 +5,7 @@ import { App } from '../../../src/app';
 import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
 import { User } from '../../../src/models/entities/user';
 
-describe.only('Add Profile to User', () => {
+describe('Add Profile to User', () => {
   let application: Application;
   let userToTest: User;
 

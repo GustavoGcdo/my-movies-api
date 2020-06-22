@@ -2,7 +2,7 @@ import { AddToWatchlistDto } from '../../dtos/profiles/addToWatchlist.dto';
 import { Validator } from '../../helpers/validator';
 import { Report } from '../../infra/report';
 
-export class addToWatchListContract {
+export class AddToWatchListContract {
   reports: Report[];
   validator: Validator;
 

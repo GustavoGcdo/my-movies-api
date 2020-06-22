@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { inject, injectable } from 'inversify';
 import { IndexController } from '../controllers/index.controller';
+import { Auth } from '../infra/auth/auth.middleware';
 
 @injectable()
 export class IndexRoutes {

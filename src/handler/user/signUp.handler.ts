@@ -8,6 +8,8 @@ import { ISignupHandler } from '../../interfaces/users/handlers/signupHandler.in
 import { IUserRepository } from '../../interfaces/users/repositories/userRepository.interface';
 import { User } from '../../models/entities/user';
 import UserTypes from '../../types/user.types';
+import { EncryptService } from '../../services/encrypt.service';
+import config from '../../config';
 
 @injectable()
 export class SignUpHandler implements ISignupHandler {
@@ -48,14 +50,22 @@ export class SignUpHandler implements ISignupHandler {
 
   private async createNewUser(signUpDto: SignUpDto) {
     const { email, password, name, birthday } = signUpDto;
+
+    const encryptedPassword = EncryptService.encrypt(password, config.SALT_KEY);
     const newUser = {
       email,
-      password,
+      password: encryptedPassword,
       birthday,
       profiles: [{ name, isMain: true }],
     } as User;
 
     const userCreated = await this._repository.create(newUser);
-    return userCreated;
+    
+    const returnObjet = {
+      _id: userCreated._id,
+      email: userCreated.email,
+      profiles: userCreated.profiles,
+    };
+    return returnObjet;
   }
 }
