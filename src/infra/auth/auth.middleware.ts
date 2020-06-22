@@ -6,8 +6,6 @@ import { HttpStatus } from '../enums/http-status.enum';
 export class Auth {
 
   public static async authorize(request: Request, response: Response, next: NextFunction) {
-    console.log('Authentication Function');
-
     const token = request.body.token || request.query.token || request.headers['authorization'];
 
     if (!token) {

@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { UsersController } from '../controllers/users.controller';
 import { inject, injectable } from 'inversify';
+import { UsersController } from '../controllers/users.controller';
+import { Auth } from '../infra/auth/auth.middleware';
 
 @injectable()
 export class UserRoutes {
@@ -19,7 +20,11 @@ export class UserRoutes {
 
   private mapRoutes() {
     this.router.post('/users/signup', (req, res) => this._controller.signUp(req, res));
-    this.router.post('/users/:id/profiles', (req, res) => this._controller.addProfile(req, res));
-    this.router.get('/users/:id/profiles', (req, res) => this._controller.getProfiles(req, res));
+    this.router.post('/users/:id/profiles', Auth.authorize, (req, res) =>
+      this._controller.addProfile(req, res),
+    );
+    this.router.get('/users/:id/profiles', Auth.authorize, (req, res) =>
+      this._controller.getProfiles(req, res),
+    );
   }
 }

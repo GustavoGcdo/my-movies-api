@@ -2,28 +2,31 @@ import { Application } from 'express';
 import mongoose from 'mongoose';
 import request from 'supertest';
 import { App } from '../../../src/app';
-import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
-import { User } from '../../../src/models/entities/user';
-import { SignUpDto } from '../../../src/dtos/user/signUp.dto';
 import DIContainer from '../../../src/di-container';
-import { ISignupHandler } from '../../../src/interfaces/users/handlers/signupHandler.interface';
-import UserTypes from '../../../src/types/user.types';
+import { SignUpDto } from '../../../src/dtos/user/signUp.dto';
+import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
+import { ILoginHandler } from '../../../src/interfaces/auth/handlers/loginHandler.interface';
 import { IAddToWatchlistHandler } from '../../../src/interfaces/profiles/handlers/addToWatchlistHandler.interface';
+import { ISignupHandler } from '../../../src/interfaces/users/handlers/signupHandler.interface';
+import { User } from '../../../src/models/entities/user';
+import AuthTypes from '../../../src/types/auth.types';
 import ProfileTypes from '../../../src/types/profile.types';
+import UserTypes from '../../../src/types/user.types';
 
 describe('Get Recommended Movies', () => {
   let application: Application;
   let userToTest: User;
+  let token: string;
+
+  const newUser = {
+    email: 'userToTest@email.com',
+    password: 'pas123',
+    confirmPassword: 'pas123',
+    birthday: new Date('1997-04-18'),
+    name: 'Gustavo',
+  } as SignUpDto;
 
   async function createValidUser() {
-    const newUser = {
-      email: 'userToTest@email.com',
-      password: 'pas123',
-      confirmPassword: 'pas123',
-      birthday: new Date('1997-04-18'),
-      name: 'Gustavo',
-    } as SignUpDto;
-
     const signupHandler = DIContainer.get<ISignupHandler>(UserTypes.SignupHandler);
     const result = await signupHandler.handle(newUser);
     userToTest = result.data;
@@ -44,6 +47,17 @@ describe('Get Recommended Movies', () => {
     }
   }
 
+  async function loginInApplication() {
+    const credentials = {
+      email: newUser.email,
+      password: newUser.password,
+    };
+
+    const loginHandler = DIContainer.get<ILoginHandler>(AuthTypes.LoginHandler);
+    const result = await loginHandler.handle(credentials);
+    token = result.data.token;
+  }
+
   beforeAll(async () => {
     application = await new App().create();
   });
@@ -59,12 +73,15 @@ describe('Get Recommended Movies', () => {
 
   it('must return a list of recommended movies when entering a profile with preferred genres', async () => {
     await createValidUser();
+    await loginInApplication();
     await addMovieToWatchlist();
 
     const [profile] = userToTest.profiles;
 
-    const response = await request(application).get(`/movies/recommended/${profile._id}`);
-    
+    const response = await request(application)
+      .get(`/movies/recommended/${profile._id}`)
+      .set('Authorization', 'Bearer ' + token);
+
     expect(response.status).toEqual(HttpStatus.SUCCESS);
     expect(response.body.message).toEqual('recommended movies found successfully');
     expect(response.body.success).toBeTruthy();
@@ -73,10 +90,13 @@ describe('Get Recommended Movies', () => {
 
   it('must return a list of recommended movies when entering a profile without preferred genres', async () => {
     await createValidUser();
+    await loginInApplication();    
 
     const [profile] = userToTest.profiles;
 
-    const response = await request(application).get(`/movies/recommended/${profile._id}`);
+    const response = await request(application)
+      .get(`/movies/recommended/${profile._id}`)
+      .set('Authorization', 'Bearer ' + token);
 
     expect(response.status).toEqual(HttpStatus.SUCCESS);
     expect(response.body.message).toEqual('recommended movies found successfully');
