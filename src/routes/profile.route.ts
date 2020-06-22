@@ -18,7 +18,14 @@ export class ProfileRoutes {
   }
 
   private mapRoutes() {
-    this.router.get('/profiles/:id/watchlist', (req, res) => this._controller.getWatchlist(req, res));
-    this.router.post('/profiles/:id/watchlist', (req, res) => this._controller.addToWatchlist(req, res));
+    this.router.get('/profiles/:id/watchlist', (req, res) =>
+      this._controller.getWatchlist(req, res),
+    );
+    this.router.post('/profiles/:id/watchlist', (req, res) =>
+      this._controller.addToWatchlist(req, res),
+    );
+    this.router.post('/profiles/:id/watchlist/:movie/watched', (req, res) =>
+      this._controller.markAsWatched(req, res),
+    );
   }
 }

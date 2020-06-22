@@ -1,19 +1,23 @@
+import { IAddToWatchlistHandler } from './../../../src/interfaces/profiles/handlers/addToWatchlistHandler.interface';
 import { Application } from 'express';
-import { User } from '../../../src/models/entities/user';
-import { App } from '../../../src/app';
-import request from 'supertest';
 import mongoose from 'mongoose';
+import request from 'supertest';
+import { App } from '../../../src/app';
+import { User } from '../../../src/models/entities/user';
+import { MyMovie } from '../../../src/models/entities/myMovie';
 import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
-import { SignUpDto } from '../../../src/dtos/user/signUp.dto';
 import DIContainer from '../../../src/di-container';
-import { ISignupHandler } from '../../../src/interfaces/users/handlers/signupHandler.interface';
+import { SignUpHandler } from '../../../src/handler/user/signUp.handler';
 import UserTypes from '../../../src/types/user.types';
-import { IAddToWatchlistHandler } from '../../../src/interfaces/profiles/handlers/addToWatchlistHandler.interface';
+import { ISignupHandler } from '../../../src/interfaces/users/handlers/signupHandler.interface';
+import { SignUpDto } from '../../../src/dtos/user/signUp.dto';
 import ProfileTypes from '../../../src/types/profile.types';
+import { IGetWatchlistHandler } from '../../../src/interfaces/profiles/handlers/getWatchlistHandler.interface';
 
-describe('Get Watchlist', () => {
+describe('Mark as Watched', () => {
   let application: Application;
   let userToTest: User;
+  let watchListToTest: MyMovie[];
 
   async function createValidUser() {
     const newUser = {
@@ -44,6 +48,18 @@ describe('Get Watchlist', () => {
     }
   }
 
+  async function getWatchlist() {
+    const [profile] = userToTest.profiles;
+
+    const getWatchlistHandler = DIContainer.get<IGetWatchlistHandler>(
+      ProfileTypes.GetWatchlistHandler,
+    );
+    if (profile._id) {
+      const result = await getWatchlistHandler.handle({ profileId: profile._id });
+      watchListToTest = result.data;
+    }
+  }
+
   beforeAll(async () => {
     application = await new App().create();
   });
@@ -53,21 +69,22 @@ describe('Get Watchlist', () => {
   });
 
   afterAll(async () => {
-    await mongoose.connection.dropDatabase();
     await mongoose.disconnect();
   });
 
-  it('must return a list of films when entering a valid profile', async () => {
+  it('must return success when marking a movie as watched', async () => {
     await createValidUser();
     await addMovieToWatchlist();
+    await getWatchlist();
 
     const [profile] = userToTest.profiles;
+    const [myMovie] = watchListToTest;
 
-    const response = await request(application).get(`/profiles/${profile._id}/watchlist`);
-
+    const response = await request(application).post(
+      `/profiles/${profile._id}/watchlist/${myMovie._id}/watched`,
+    );
     expect(response.status).toEqual(HttpStatus.SUCCESS);
-    expect(response.body.message).toEqual('watchlist successfully found');
+    expect(response.body.message).toEqual('movie marked as watched successfully');
     expect(response.body.success).toBeTruthy();
-    expect(Array.isArray(response.body.data)).toBeTruthy();
   });
 });

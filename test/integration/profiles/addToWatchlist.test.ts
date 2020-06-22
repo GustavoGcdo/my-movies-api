@@ -4,31 +4,45 @@ import request from 'supertest';
 import { App } from '../../../src/app';
 import { User } from '../../../src/models/entities/user';
 import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
+import { SignUpDto } from '../../../src/dtos/user/signUp.dto';
+import DIContainer from '../../../src/di-container';
+import { ISignupHandler } from '../../../src/interfaces/users/handlers/signupHandler.interface';
+import UserTypes from '../../../src/types/user.types';
 
 describe('Add Movie to Watchlist', () => {
   let application: Application;
   let userToTest: User;
 
-  beforeAll(async () => {
-    application = await new App().create();
-
+  async function createValidUser() {
     const newUser = {
-      email: 'userToTestWatchlist@email.com',
+      email: 'userToTestWathlist@email.com',
       password: 'pas123',
       confirmPassword: 'pas123',
-      birthday: '1997-04-18',
+      birthday: new Date('1997-04-18'),
       name: 'Gustavo',
-    };
+    } as SignUpDto;
 
-    const response = await request(application).post('/users/signup').send(newUser);
-    userToTest = response.body.data;
+    const signupHandler = DIContainer.get<ISignupHandler>(UserTypes.SignupHandler);
+    const result = await signupHandler.handle(newUser);
+    userToTest = result.data;
+  }
+
+  beforeAll(async () => {
+    application = await new App().create();
+  });
+
+  beforeEach(async () => {
+    await mongoose.connection.dropDatabase();
   });
 
   afterAll(async () => {
+    await mongoose.connection.dropDatabase();
     await mongoose.disconnect();
   });
 
   it('should be return success to add movie in profile', async () => {
+    await createValidUser();
+
     const [profile] = userToTest.profiles;
     const validMovieId = 1771;
     const response = await request(application).post(`/profiles/${profile._id}/watchlist`).send({
@@ -41,6 +55,8 @@ describe('Add Movie to Watchlist', () => {
   });
 
   it('should be fail on pass movie id invalid', async () => {
+    await createValidUser();
+
     const [profile] = userToTest.profiles;
     const invalidMovieId = 'invalidMovieId';
     const response = await request(application).post(`/profiles/${profile._id}/watchlist`).send({

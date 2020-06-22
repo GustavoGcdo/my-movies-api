@@ -30,7 +30,7 @@ export class GetWatchlistHandler implements IGetWatchlistHandler {
     return resultSuccess;
   }
 
-  private async validate(getWatchlistDto: GetWatchlistDto) {
+  private validate(getWatchlistDto: GetWatchlistDto) {
     this.validateContract(getWatchlistDto);
   }
 
