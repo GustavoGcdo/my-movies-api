@@ -20,6 +20,7 @@ import ProfileTypes from './types/profile.types';
 import UserTypes from './types/user.types';
 import { GetWatchlistHandler } from './handler/profiles/getWatchlist.handler';
 import { MarkAsWatchedHandler } from './handler/profiles/markAsWatched.handler';
+import { GetRecommendedMoviesHandler } from './handler/movies/getRecommendedMoviesHandler';
 
 const DIContainer = new Container();
 
@@ -38,6 +39,7 @@ DIContainer.bind<AddProfileHandler>(UserTypes.AddProfileHandler).to(AddProfileHa
 DIContainer.bind<GetProfilesHandler>(UserTypes.GetProfilesHandler).to(GetProfilesHandler);
 
 DIContainer.bind<SearchMovieHandler>(MovieTypes.SearchMovieHandler).to(SearchMovieHandler);
+DIContainer.bind<GetRecommendedMoviesHandler>(MovieTypes.GetRecommendedMoviesHandler).to(GetRecommendedMoviesHandler);
 
 DIContainer.bind<AddToWatchlistHandler>(ProfileTypes.AddToWatchlistHandler).to(AddToWatchlistHandler);
 DIContainer.bind<GetWatchlistHandler>(ProfileTypes.GetWatchlistHandler).to(GetWatchlistHandler);

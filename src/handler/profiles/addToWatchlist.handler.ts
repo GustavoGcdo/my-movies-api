@@ -12,6 +12,8 @@ import { TheMovieDBService } from '../../services/theMovieDB.service';
 import ProfileTypes from '../../types/profile.types';
 import UserTypes from '../../types/user.types';
 import { User } from '../../models/entities/user';
+import { MovieInfo } from '../../models/entities/movieInfo';
+import { Genre } from '../../models/entities/genre';
 
 @injectable()
 export class AddToWatchlistHandler implements IAddToWatchlistHandler {
@@ -73,11 +75,15 @@ export class AddToWatchlistHandler implements IAddToWatchlistHandler {
   }
 
   private async addMovieToWatchlist(addToWatchlistDto: AddToWatchlistDto) {
-    const movie = await this._service.getSpecificMovie(addToWatchlistDto.movieId);
+    const movie: MovieInfo = await this._service.getSpecificMovie(addToWatchlistDto.movieId);
 
     const profileToAdd = this.getProfileToAdd(addToWatchlistDto);
     const myMovieToAdd = { watched: false, info: movie, profile: profileToAdd } as MyMovie;
     await this._myMovieRepository.create(myMovieToAdd);
+
+    const genreIds = this.getOnlyGenreId(movie.genres);
+    await this._userRepository.addFavoriteGenre(addToWatchlistDto.profileId, genreIds);
+    
   }
 
   private getProfileToAdd(addToWatchlistDto: AddToWatchlistDto) {
@@ -85,5 +91,9 @@ export class AddToWatchlistHandler implements IAddToWatchlistHandler {
       (profile) => (profile._id = addToWatchlistDto.profileId),
     );
     return foundProfile;
+  }
+
+  private getOnlyGenreId(genres: Genre[]){
+    return genres.map(g => g.id);
   }
 }

@@ -31,4 +31,11 @@ export class UserRepository implements IUserRepository {
     const profiles = userFound.profiles;
     return profiles;
   }
+
+  async addFavoriteGenre(idProfile: string, genre: number[]): Promise<void> {
+    await UserModel.updateOne(
+      { 'profiles._id': idProfile },
+      { $addToSet: { 'profiles.$.favoriteGenres': genre } },
+    );
+  }
 }

@@ -19,5 +19,8 @@ export class MovieRoutes {
 
   private mapRoutes() {
     this.router.get('/movies', (req, res) => this._controller.searchMovie(req, res));
+    this.router.get('/movies/recommended/:profile', (req, res) =>
+      this._controller.getRecommendedMovies(req, res),
+    );
   }
 }
