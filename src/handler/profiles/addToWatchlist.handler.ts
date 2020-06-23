@@ -70,30 +70,38 @@ export class AddToWatchlistHandler implements IAddToWatchlistHandler {
       throw new ValidationFailedError('fail to add movie in watchlist', report);
     }
 
+    const [movieAlreadyAdded] = await this._myMovieRepository.find({
+      'info.id': addToWatchlistDto.movieId,
+    });
+
+    if (movieAlreadyAdded != null) {
+      const report: Report = { name: 'movie', message: 'movie already added' };
+      throw new ValidationFailedError('fail to add movie in watchlist', report);
+    }
+
     this.foundUserWithProfile = foundUser;
     this.moveToAdd = foundMovie;
   }
 
   private async addMovieToWatchlist(addToWatchlistDto: AddToWatchlistDto) {
-    const movie: MovieInfo = await this._service.getSpecificMovie(addToWatchlistDto.movieId);
-
     const profileToAdd = this.getProfileToAdd(addToWatchlistDto);
-    const myMovieToAdd = { watched: false, info: movie, profile: profileToAdd } as MyMovie;
+    const myMovieToAdd = { watched: false, info: this.moveToAdd, profile: profileToAdd } as MyMovie;
     await this._myMovieRepository.create(myMovieToAdd);
 
-    const genreIds = this.getOnlyGenreId(movie.genres);
+    const genreIds = this.getOnlyGenreId(this.moveToAdd.genres);
     await this._userRepository.addFavoriteGenre(addToWatchlistDto.profileId, genreIds);
-    
   }
 
   private getProfileToAdd(addToWatchlistDto: AddToWatchlistDto) {
-    const foundProfile = this.foundUserWithProfile?.profiles.find(
-      (profile) => (profile._id?.toString() === addToWatchlistDto.profileId),
-    );
-    return foundProfile;
+    if (this.foundUserWithProfile) {
+      const foundProfile = this.foundUserWithProfile.profiles.find(
+        (profile) => profile._id?.toString() === addToWatchlistDto.profileId.toString(),
+      );
+      return foundProfile;
+    }
   }
 
-  private getOnlyGenreId(genres: Genre[]){
-    return genres.map(g => g.id);
+  private getOnlyGenreId(genres: Genre[]) {
+    return genres.map((g) => g.id);
   }
 }
