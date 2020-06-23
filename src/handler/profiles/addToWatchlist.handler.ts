@@ -88,7 +88,7 @@ export class AddToWatchlistHandler implements IAddToWatchlistHandler {
 
   private getProfileToAdd(addToWatchlistDto: AddToWatchlistDto) {
     const foundProfile = this.foundUserWithProfile?.profiles.find(
-      (profile) => (profile._id = addToWatchlistDto.profileId),
+      (profile) => (profile._id?.toString() === addToWatchlistDto.profileId),
     );
     return foundProfile;
   }

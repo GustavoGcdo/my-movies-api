@@ -48,7 +48,7 @@ export class SignUpContract {
   }
 
   private validateConfirmPassword(password: string, confirmPassword: string) {
-    this.validator.isRequired(confirmPassword, 'confirmPassword', 'confirmPassword is required');
+    this.validator.isRequired(confirmPassword, 'confirmPassword', 'confirm password is required');
 
     if (password != confirmPassword) {
       this.reports.push({

@@ -54,8 +54,8 @@ export class LoginHandler implements ILoginHandler {
 
     const dataToken = {
       _id: foundUser._id,
-      username: foundUser.email,
-      name: foundUser.profiles,
+      email: foundUser.email,      
+      profiles: foundUser.profiles
     };
     const token = AuthenticationService.generateToken(dataToken);
     return token;
