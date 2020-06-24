@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node ./dist/server.js",
     "start:dev": "cross-env NODE_ENV=dev ts-node-dev --no-notify --respawn --transpileOnly ./src/server.ts",
     "build": "tsc",
     "test": "jest --runInBand",
