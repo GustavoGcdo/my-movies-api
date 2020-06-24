@@ -19,9 +19,9 @@ export class MyMoviesRepository implements IMyMoviesRepository {
 
   async markAsWatched(idProfile: string, idMovie: string): Promise<MyMovie> {
     const updatedMyMovie = await MyMovieModel.updateOne(
-      { _id: idMovie, profile: idProfile },
+      { _id: idMovie, 'profile._id': idProfile },
       { watched: true },
-    );
+    );    
     return updatedMyMovie;
   }
 }
