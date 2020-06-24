@@ -1,8 +1,11 @@
 ## My movies api
 
 API Criada para o Projeto My Movies utilizando a API do The Movie DB. 
+
 Link da API Publicada: [https://gustavo-my-movies-api.herokuapp.com/](https://gustavo-my-movies-api.herokuapp.com/)
+
 Frontend da aplicação publicada: [https://gustavo-my-movies-app.herokuapp.com/login](https://gustavo-my-movies-app.herokuapp.com/login)
+
 Link do repositório do frontEnd: https://github.com/GustavoGcdo/my-movies-front.git
 
 ### Requisitos
