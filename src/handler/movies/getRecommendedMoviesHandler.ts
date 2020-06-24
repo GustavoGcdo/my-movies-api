@@ -81,7 +81,7 @@ export class GetRecommendedMoviesHandler implements IGetRecommendedMoviesHandler
   }
 
   private mountQueryForFavoriteGenres(genresId: number[]) {
-    return genresId.map((a) => a.toString()).join('|');
+    return genresId.map((a) => a.toString()).join(',');
   }
 
   private mapMovies(results: any[]) {
