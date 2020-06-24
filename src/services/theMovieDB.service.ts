@@ -13,7 +13,8 @@ export class TheMovieDBService {
   }
 
   async getSpecificMovie(movieId: number) {
-    const response = await TheMovieDBBase.get(`movie/${movieId}`).catch((err) => {
+    const queryParam = stringify({ language: config.LANGUAGE });
+    const response = await TheMovieDBBase.get(`movie/${movieId}?${queryParam}`).catch((err) => {
       return { data: null };
     });
     return response.data;

@@ -15,6 +15,7 @@ const schema = new Schema(
           name: String,
         },
       ],
+      release_date: Date,
     },
     watched: Boolean,
     profile: {

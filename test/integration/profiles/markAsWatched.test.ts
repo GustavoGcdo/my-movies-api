@@ -97,8 +97,6 @@ describe('Mark as Watched', () => {
       .post(`/profiles/${profile._id}/watchlist/${myMovie._id}/watched`)
       .set('Authorization', 'Bearer ' + token);
 
-    console.log(response.body);
-
     expect(response.status).toEqual(HttpStatus.SUCCESS);
     expect(response.body.message).toEqual('movie marked as watched successfully');
     expect(response.body.success).toBeTruthy();

@@ -71,6 +71,7 @@ export class AddToWatchlistHandler implements IAddToWatchlistHandler {
     }
 
     const [movieAlreadyAdded] = await this._myMovieRepository.find({
+      'profile._id': addToWatchlistDto.profileId,
       'info.id': addToWatchlistDto.movieId,
     });
 
