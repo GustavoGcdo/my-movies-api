@@ -20,4 +20,5 @@ export default {
   DB_URI: process.env.DB_URI || 'mongodb://localhost/my-movies-db',
   LANGUAGE: process.env.LANGUAGE || 'pt-BR',
   SALT_KEY: process.env.SALT_KEY || 'secrectKey',
+  PORT: process.env.PORT || 3000,
 };

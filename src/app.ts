@@ -50,9 +50,9 @@ export class App {
     });
   }
 
-  public start(port: number) {
-    this.app.listen(port, () => {
-      console.log(`listen on port ${3000}`);
+  public start() {
+    this.app.listen(config.PORT, () => {
+      console.log(`listen on port ${config.PORT}`);
     });
   }
 }
