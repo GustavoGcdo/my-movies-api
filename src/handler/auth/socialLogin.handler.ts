@@ -18,11 +18,9 @@ export class SocialLoginHandler implements ISocialLoginHandler {
   }
 
   async handle(socialLoginDto: SocialLoginDto): Promise<Result> {
-    console.log('brabrab');
-    
-    this.validate(socialLoginDto);    
+    this.validate(socialLoginDto);
     const token = await this.getTokenUser(socialLoginDto);
-    
+
     const resultSucess = new Result({ token }, 'login successfully', true, []);
     return resultSucess;
   }
@@ -57,8 +55,11 @@ export class SocialLoginHandler implements ISocialLoginHandler {
             isMain: true,
           },
         ],
+        socialLogin: {
+          facebookId: socialLogin.facebookId,
+        },
       } as User;
-      
+
       foundUser = await this._userRepository.create(newUser);
     }
 

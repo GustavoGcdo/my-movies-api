@@ -5,4 +5,5 @@ export interface User {
   birthday: Date;
   password: string;  
   profiles: Profile[]
+  socialLogin?: {facebookId: number}
 }

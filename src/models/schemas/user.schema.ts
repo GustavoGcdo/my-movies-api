@@ -11,7 +11,10 @@ const schema = new Schema(
     email: String,
     password: String,    
     birthday: Date,
-    profiles: [profileSchema]
+    profiles: [profileSchema],
+    socialLogin: {
+      facebookId: Number
+    }
   },
   {
     timestamps: true,
