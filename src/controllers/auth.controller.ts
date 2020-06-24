@@ -35,12 +35,8 @@ export class AuthController {
     try {
       const { body } = request;
       const result = await this._socialLoginHandler.handle(body);
-      console.log('el log', result);
-      
       return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
     } catch (error) {
-      console.log(error);
-      
       return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
     }
   }
