@@ -6,13 +6,19 @@ import { Result } from '../infra/result';
 import { ILoginHandler } from '../interfaces/auth/handlers/loginHandler.interface';
 import AuthTypes from '../types/auth.types';
 import { LoginDto } from '../dtos/auth/login.dto';
+import { ISocialLoginHandler } from '../interfaces/auth/handlers/socialLoginHandler.interface';
 
 @injectable()
 export class AuthController {
   private _loginHandler: ILoginHandler;
+  private _socialLoginHandler: ISocialLoginHandler;
 
-  constructor(@inject(AuthTypes.LoginHandler) loginHandler: ILoginHandler) {
+  constructor(
+    @inject(AuthTypes.LoginHandler) loginHandler: ILoginHandler,
+    @inject(AuthTypes.SocialLoginHandler) socialLoginHandler: ISocialLoginHandler,
+  ) {
     this._loginHandler = loginHandler;
+    this._socialLoginHandler = socialLoginHandler;
   }
 
   public async login(request: Request, response: Response) {
@@ -21,6 +27,20 @@ export class AuthController {
       const result = await this._loginHandler.handle(body);
       return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
     } catch (error) {
+      return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
+    }
+  }
+
+  public async socialLogin(request: Request, response: Response) {
+    try {
+      const { body } = request;
+      const result = await this._socialLoginHandler.handle(body);
+      console.log('el log', result);
+      
+      return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
+    } catch (error) {
+      console.log(error);
+      
       return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
     }
   }

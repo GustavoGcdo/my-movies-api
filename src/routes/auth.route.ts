@@ -19,5 +19,6 @@ export class AuthRoutes {
 
   private mapRoutes() {
     this.router.post('/auth/login', (req, res) => this._controller.login(req, res));
+    this.router.post('/auth/social', (req, res) => this._controller.socialLogin(req, res));
   }
 }
